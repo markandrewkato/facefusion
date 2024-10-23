@@ -77,13 +77,13 @@ def run(program : ArgumentParser) -> None:
 			])
 
 			# Add specific library paths containing the required libraries
-	        required_libs = [
-	            'libcudnn.so.9',  # CUDNN
-	            'libcublas.so.12',  # CUBLAS
-	            'libcublasLt.so.12',  # CUBLAS Lt
-	            'libcudart.so.12',  # CUDA Runtime
-	        ]
-
+			required_libs = [
+				'libcudnn.so.9',  # CUDNN
+				'libcublas.so.12',  # CUBLAS
+				'libcublasLt.so.12',  # CUBLAS Lt
+				'libcudart.so.12',  # CUDA Runtime
+			]
+			
 			library_paths = [ library_path for library_path in library_paths if os.path.exists(library_path) ]
 
 	        # Debug print to see what we're finding
