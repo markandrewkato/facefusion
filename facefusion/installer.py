@@ -67,10 +67,13 @@ def run(program : ArgumentParser) -> None:
 				library_paths = os.getenv('LD_LIBRARY_PATH').split(os.pathsep)
 
 			python_id = 'python' + str(sys.version_info.major) + '.' + str(sys.version_info.minor)
+
+			root_prefix = os.getenv('MAMBA_ROOT_PREFIX') or os.getenv('CONDA_PREFIX')
+			
 			library_paths.extend(
 			[
-				os.path.join(os.getenv('CONDA_PREFIX'), 'lib'),
-				os.path.join(os.getenv('CONDA_PREFIX'), 'lib', python_id, 'site-packages', 'tensorrt_libs')
+				os.path.join(root_prefix, 'lib'),
+				os.path.join(root_prefix, 'lib', python_id, 'site-packages', 'tensorrt_libs')
 			])
 			library_paths = [ library_path for library_path in library_paths if os.path.exists(library_path) ]
 
