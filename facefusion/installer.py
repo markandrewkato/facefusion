@@ -81,7 +81,7 @@ def run(program : ArgumentParser) -> None:
 			subprocess.call([
 		    	shutil.which('micromamba'),
 			    'config',
-			    'env',
+			    '--env',
 			    'vars',
 			    'set',
 			    'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths)
