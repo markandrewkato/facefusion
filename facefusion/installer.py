@@ -78,13 +78,10 @@ def run(program : ArgumentParser) -> None:
 			library_paths = [ library_path for library_path in library_paths if os.path.exists(library_path) ]
 
 			# subprocess.call([ shutil.which('micromamba'), 'env', 'config', 'vars', 'set', 'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths) ])
-			subprocess.call([
-			    shutil.which('micromamba'),
-			    'config',
-			    'append', 
-			    'env_vars.LD_LIBRARY_PATH',
-			    os.pathsep.join(library_paths)
-			])
+			os.environ['LD_LIBRARY_PATH'] = os.pathsep.join(library_paths)
+			
+			with open(os.path.expanduser('~/.bashrc'), 'a') as f:
+	            f.write(f'\nexport LD_LIBRARY_PATH={os.pathsep.join(library_paths)}\n')
 
 		if is_windows():
 			if os.getenv('PATH'):
