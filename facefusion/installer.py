@@ -75,10 +75,29 @@ def run(program : ArgumentParser) -> None:
 				os.path.join(root_prefix, 'lib'),
 				os.path.join(root_prefix, 'lib', python_id, 'site-packages', 'tensorrt_libs')
 			])
+
+			# Add specific library paths containing the required libraries
+	        required_libs = [
+	            'libcudnn.so.9',  # CUDNN
+	            'libcublas.so.12',  # CUBLAS
+	            'libcublasLt.so.12',  # CUBLAS Lt
+	            'libcudart.so.12',  # CUDA Runtime
+	        ]
+
 			library_paths = [ library_path for library_path in library_paths if os.path.exists(library_path) ]
+
+	        # Debug print to see what we're finding
+			print("Debug: Found library paths:")
+	        for path in library_paths:
+	            print(f"- {path}")
+	            if os.path.exists(path):
+	                files = os.listdir(path)
+	                print("  Files:", [f for f in files if any(lib in f for lib in required_libs)])
 
 			# subprocess.call([ shutil.which('micromamba'), 'env', 'config', 'vars', 'set', 'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths) ])
 			os.environ['LD_LIBRARY_PATH'] = os.pathsep.join(library_paths)
+
+			print("\nDebug: Final LD_LIBRARY_PATH:", os.environ['LD_LIBRARY_PATH'])
 
 		if is_windows():
 			if os.getenv('PATH'):
