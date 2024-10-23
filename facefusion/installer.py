@@ -83,16 +83,16 @@ def run(program : ArgumentParser) -> None:
 				'libcublasLt.so.12',  # CUBLAS Lt
 				'libcudart.so.12',  # CUDA Runtime
 			]
-			
+
 			library_paths = [ library_path for library_path in library_paths if os.path.exists(library_path) ]
 
 	        # Debug print to see what we're finding
 			print("Debug: Found library paths:")
-	        for path in library_paths:
-	            print(f"- {path}")
-	            if os.path.exists(path):
-	                files = os.listdir(path)
-	                print("  Files:", [f for f in files if any(lib in f for lib in required_libs)])
+			for path in library_paths:
+				print(f"- {path}")
+				if os.path.exists(path):
+					files = os.listdir(path)
+					print("  Files:", [f for f in files if any(lib in f for lib in required_libs)])
 
 			# subprocess.call([ shutil.which('micromamba'), 'env', 'config', 'vars', 'set', 'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths) ])
 			os.environ['LD_LIBRARY_PATH'] = os.pathsep.join(library_paths)
