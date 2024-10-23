@@ -79,12 +79,11 @@ def run(program : ArgumentParser) -> None:
 
 			# subprocess.call([ shutil.which('micromamba'), 'env', 'config', 'vars', 'set', 'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths) ])
 			subprocess.call([
-		    	shutil.which('micromamba'),
+			    shutil.which('micromamba'),
 			    'config',
-			    '--env',
-			    'vars',
-			    'set',
-			    'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths)
+			    'append', 
+			    'env_vars.LD_LIBRARY_PATH',
+			    os.pathsep.join(library_paths)
 			])
 
 		if is_windows():
