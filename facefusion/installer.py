@@ -35,7 +35,7 @@ def cli() -> None:
 
 def run(program : ArgumentParser) -> None:
 	args = program.parse_args()
-	has_conda = 'CONDA_PREFIX' in os.environ
+	has_conda = 'MAMBA_ROOT_PREFIX' in os.environ
 	onnxruntime_name, onnxruntime_version = ONNXRUNTIMES.get(args.onnxruntime)
 
 	if not args.skip_conda and not has_conda:
@@ -77,7 +77,15 @@ def run(program : ArgumentParser) -> None:
 			])
 			library_paths = [ library_path for library_path in library_paths if os.path.exists(library_path) ]
 
-			subprocess.call([ shutil.which('micromamba'), 'env', 'config', 'vars', 'set', 'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths) ])
+			# subprocess.call([ shutil.which('micromamba'), 'env', 'config', 'vars', 'set', 'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths) ])
+			subprocess.call([
+		    	shutil.which('micromamba'),
+			    'config',
+			    'env',
+			    'vars',
+			    'set',
+			    'LD_LIBRARY_PATH=' + os.pathsep.join(library_paths)
+			])
 
 		if is_windows():
 			if os.getenv('PATH'):
